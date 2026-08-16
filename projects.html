@@ -36,7 +36,7 @@
     :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':'bg-transparent'">
     <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10">
-        <span class="text-zinc-900 dark:text-white">eli</span><span class="text-accent">ott</span>
+        <span class="text-zinc-900 dark:text-white">Md. Ariful</span><span class="text-accent"> Islam</span>
       </a>
       <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
         <li><a href="index.html#services" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Services</a></li>
@@ -162,62 +162,356 @@
   </footer>
 
   <script>
-    function projects() {
-      return {
-        dark: false,
-        scrolled: false,
-        mobileMenu: false,
-        filter: 'all',
+function projects() {
+  return {
+    dark: false,
+    scrolled: false,
+    mobileMenu: false,
+    filter: 'all',
 
-        filterOptions: [
-          { value: 'all',       label: 'All (9)' },
-          { value: 'saas',      label: 'SaaS' },
-          { value: 'landing',   label: 'Landing page' },
-          { value: 'agency',    label: 'Agency' },
-          { value: 'ecommerce', label: 'E-commerce' },
+    filterOptions: [
+      { value: 'all',       label: 'All Projects' },
+      { value: 'it',        label: 'IT & Infrastructure' },
+      { value: 'branding',  label: 'Branding' },
+      { value: 'graphic',   label: 'Graphic Design' },
+      { value: 'packaging', label: 'Packaging' },
+      { value: 'book',      label: 'Book Design' },
+      { value: 'marketing', label: 'Digital Marketing' }
+    ],
+
+    allProjects: [
+
+      /* =====================================================
+         01 — IT INFRASTRUCTURE
+      ====================================================== */
+
+      {
+        id: 1,
+        title: 'Enterprise IT Infrastructure',
+        category: 'it',
+        categoryLabel: 'IT & Infrastructure',
+
+        tags: [
+          'IT Infrastructure',
+          'Networking',
+          'Cybersecurity'
         ],
 
-        allProjects: [
-          { id:1,  title:'Novu — SaaS Dashboard',  category:'saas',      categoryLabel:'SaaS',         tags:['SaaS','Figma','Tailwind'],           year:'2025', desc:'Complete redesign of a B2B notification platform. Reduced cognitive load by 40% and improved trial-to-paid conversion.',    img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&q=80',  url:'case-study.html' },
-          { id:2,  title:'Finlo — Fintech App',    category:'landing',   categoryLabel:'Landing page', tags:['Landing page','Fintech','Alpine.js'], year:'2024', desc:'Marketing site and onboarding flow for a personal finance app targeting young professionals.',                              img:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80', url:'case-study.html' },
-          { id:3,  title:'Orea — Creative Agency', category:'agency',    categoryLabel:'Agency',       tags:['Agency','Animation'],                year:'2024', desc:'Bold editorial site for a Paris-based branding studio. Scroll-driven animations and custom cursor.',                      img:'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=700&q=80', url:'case-study.html' },
-          { id:4,  title:'Vesta — Real Estate',    category:'landing',   categoryLabel:'Landing page', tags:['Landing page','Real Estate'],         year:'2024', desc:'Conversion-focused landing page for a proptech startup entering the French market.',                                      img:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=80',  url:'case-study.html' },
-          { id:5,  title:'Arkio — SaaS Analytics', category:'saas',      categoryLabel:'SaaS',         tags:['SaaS','Dashboard','Figma'],           year:'2024', desc:'Data visualisation dashboard for a B2B analytics platform. Designed for clarity at high data density.',                img:'https://images.unsplash.com/photo-1581472723648-909f4851d4ae?w=700&q=80', url:'case-study.html' },
-          { id:6,  title:'Bloom — E-commerce',     category:'ecommerce', categoryLabel:'E-commerce',   tags:['E-commerce','Shopify'],               year:'2023', desc:'Custom Shopify theme for a sustainable cosmetics brand. Mobile-first with high emphasis on product imagery.',           img:'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=700&q=80',  url:'case-study.html' },
-          { id:7,  title:'Mira — Health App',      category:'landing',   categoryLabel:'Landing page', tags:['Landing page','Health','Tailwind'],   year:'2023', desc:'App landing page for a mental wellness startup. Warm, accessible design with strong social proof.',                    img:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=700&q=80', url:'case-study.html' },
-          { id:8,  title:'Noto — Agency Rebrand',  category:'agency',    categoryLabel:'Agency',       tags:['Agency','Rebrand'],                  year:'2023', desc:'Full rebrand and website for a digital communications agency in Lyon.',                                                img:'https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80', url:'case-study.html' },
-          { id:9,  title:'Kova — E-commerce',      category:'ecommerce', categoryLabel:'E-commerce',   tags:['E-commerce','Figma'],                year:'2023', desc:'Product page redesign and checkout optimisation for a DTC furniture brand. Reduced cart abandonment by 18%.',         img:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&q=80',  url:'case-study.html' },
+        year: '2026',
+
+        desc:
+          'Enterprise IT infrastructure management covering network administration, server management, security, backup, user access and business continuity.',
+
+        img: 'images/projects/it-infrastructure.jpg',
+
+        url: 'case-study.html?project=it-infrastructure'
+      },
+
+
+      /* =====================================================
+         02 — MICROSOFT 365
+      ====================================================== */
+
+      {
+        id: 2,
+        title: 'Microsoft 365 & Business Email',
+        category: 'it',
+        categoryLabel: 'IT & Infrastructure',
+
+        tags: [
+          'Microsoft 365',
+          'Email',
+          'Administration'
         ],
 
-        get visibleCount() {
-          if (this.filter === 'all') return this.allProjects.length;
-          return this.allProjects.filter(p => p.category === this.filter).length;
-        },
+        year: '2026',
 
-        init() {
-          this.dark = localStorage.getItem('theme') === 'dark'
-            || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        desc:
+          'Microsoft 365 administration and business email solutions designed to improve collaboration, communication and organizational productivity.',
 
-          window.addEventListener('scroll', () => {
-            this.scrolled = window.scrollY > 20;
-          }, { passive: true });
+        img: 'images/projects/microsoft365.jpg',
 
-          this.$nextTick(() => {
-            const obs = new IntersectionObserver(entries => {
-              entries.forEach(e => {
-                if (e.isIntersecting) {
-                  e.target.classList.add('visible');
-                  obs.unobserve(e.target);
-                }
-              });
-            }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-          });
-        }
+        url: 'case-study.html?project=microsoft365'
+      },
+
+
+      /* =====================================================
+         03 — ERP / HRMS
+      ====================================================== */
+
+      {
+        id: 3,
+        title: 'ERP & HRMS Implementation',
+        category: 'it',
+        categoryLabel: 'IT & Infrastructure',
+
+        tags: [
+          'ERP',
+          'HRMS',
+          'Business Systems'
+        ],
+
+        year: '2026',
+
+        desc:
+          'Implementation, administration and optimization of ERP and HR management systems for streamlined business operations.',
+
+        img: 'images/projects/erp-hrms.jpg',
+
+        url: 'case-study.html?project=erp-hrms'
+      },
+
+
+      /* =====================================================
+         04 — CORPORATE BRANDING
+      ====================================================== */
+
+      {
+        id: 4,
+        title: 'Corporate Branding & Visual Identity',
+        category: 'branding',
+        categoryLabel: 'Branding',
+
+        tags: [
+          'Brand Identity',
+          'Logo Design',
+          'Corporate Design'
+        ],
+
+        year: '2026',
+
+        desc:
+          'Professional corporate branding systems including logo development, visual identity, marketing materials and brand communication assets.',
+
+        img: 'images/projects/corporate-branding.jpg',
+
+        url: 'case-study.html?project=corporate-branding'
+      },
+
+
+      /* =====================================================
+         05 — PACKAGING
+      ====================================================== */
+
+      {
+        id: 5,
+        title: 'Product Packaging Design',
+        category: 'packaging',
+        categoryLabel: 'Packaging',
+
+        tags: [
+          'Packaging',
+          'Print Design',
+          'Branding'
+        ],
+
+        year: '2026',
+
+        desc:
+          'Creative and production-ready packaging designs developed to communicate product value while maintaining strong brand consistency.',
+
+        img: 'images/projects/packaging-design.jpg',
+
+        url: 'case-study.html?project=packaging'
+      },
+
+
+      /* =====================================================
+         06 — BOOK COVER
+      ====================================================== */
+
+      {
+        id: 6,
+        title: 'Professional Book Cover Design',
+        category: 'book',
+        categoryLabel: 'Book Design',
+
+        tags: [
+          'Book Cover',
+          'Amazon KDP',
+          'Print Design'
+        ],
+
+        year: '2026',
+
+        desc:
+          'Professional paperback, hardcover and ebook cover designs created for authors and publishing projects.',
+
+        img: 'images/projects/book-cover.jpg',
+
+        url: 'case-study.html?project=book-cover'
+      },
+
+
+      /* =====================================================
+         07 — GRAPHIC DESIGN
+      ====================================================== */
+
+      {
+        id: 7,
+        title: 'Corporate Marketing Materials',
+        category: 'graphic',
+        categoryLabel: 'Graphic Design',
+
+        tags: [
+          'Flyer',
+          'Brochure',
+          'Banner',
+          'Advertising'
+        ],
+
+        year: '2026',
+
+        desc:
+          'Professional marketing and communication materials including flyers, brochures, banners, advertisements, catalogs and corporate presentations.',
+
+        img: 'images/projects/marketing-materials.jpg',
+
+        url: 'case-study.html?project=marketing-materials'
+      },
+
+
+      /* =====================================================
+         08 — SOCIAL MEDIA
+      ====================================================== */
+
+      {
+        id: 8,
+        title: 'Social Media Creative Design',
+        category: 'marketing',
+        categoryLabel: 'Digital Marketing',
+
+        tags: [
+          'Social Media',
+          'Creative',
+          'Campaign'
+        ],
+
+        year: '2026',
+
+        desc:
+          'Engaging social media graphics and campaign creatives designed to strengthen brand visibility and digital communication.',
+
+        img: 'images/projects/social-media.jpg',
+
+        url: 'case-study.html?project=social-media'
+      },
+
+
+      /* =====================================================
+         09 — GOOGLE ADS
+      ====================================================== */
+
+      {
+        id: 9,
+        title: 'Google Ads & Conversion Campaigns',
+        category: 'marketing',
+        categoryLabel: 'Digital Marketing',
+
+        tags: [
+          'Google Ads',
+          'Campaign Management',
+          'CRO'
+        ],
+
+        year: '2026',
+
+        desc:
+          'Performance-focused digital marketing initiatives including Google Ads, campaign optimization and conversion-focused creative development.',
+
+        img: 'images/projects/google-ads.jpg',
+
+        url: 'case-study.html?project=google-ads'
       }
+
+    ],
+
+
+    /* =====================================================
+       FILTER
+    ====================================================== */
+
+    get filteredProjects() {
+
+      if (this.filter === 'all') {
+        return this.allProjects;
+      }
+
+      return this.allProjects.filter(
+        project => project.category === this.filter
+      );
+    },
+
+
+    get visibleCount() {
+      return this.filteredProjects.length;
+    },
+
+
+    /* =====================================================
+       INITIALIZATION
+    ====================================================== */
+
+    init() {
+
+      this.dark =
+        localStorage.getItem('theme') === 'dark' ||
+        (
+          !localStorage.getItem('theme') &&
+          window.matchMedia(
+            '(prefers-color-scheme: dark)'
+          ).matches
+        );
+
+
+      window.addEventListener(
+        'scroll',
+        () => {
+          this.scrolled = window.scrollY > 20;
+        },
+        { passive: true }
+      );
+
+
+      this.$nextTick(() => {
+
+        const obs = new IntersectionObserver(
+          entries => {
+
+            entries.forEach(entry => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add('visible');
+
+                obs.unobserve(entry.target);
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.08,
+            rootMargin: '0px 0px -30px 0px'
+          }
+        );
+
+
+        document
+          .querySelectorAll('.reveal')
+          .forEach(el => obs.observe(el));
+
+      });
+
     }
 
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  };
+}
+
+
+document.getElementById('year').textContent =
+  new Date().getFullYear();
+</script>
 </body>
 </html>

@@ -1,268 +1,1108 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ dark: localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches), scrolled:false, mobileMenu:false, progress:0 }" :class="{'dark':dark}" x-init="$watch('dark',v=>localStorage.setItem('theme',v?'dark':'light'));window.addEventListener('scroll',()=>{scrolled=window.scrollY>20;progress=Math.min(100,Math.round((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100));},{passive:true})" class="scroll-smooth">
+<html
+  lang="en"
+  x-data="{
+    dark: localStorage.getItem('theme') === 'dark' ||
+          (!localStorage.getItem('theme') &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches),
+    scrolled: false,
+    mobileMenu: false
+  }"
+  :class="{ 'dark': dark }"
+  x-init="
+    $watch('dark', v => localStorage.setItem('theme', v ? 'dark' : 'light'));
+    window.addEventListener('scroll', () => scrolled = window.scrollY > 20, { passive:true })
+  "
+  class="scroll-smooth"
+>
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Why I ditched heavy CSS frameworks for Tailwind — Eliott's blog"/>
-  <meta name="author" content="Eliott"/>
-  <meta property="og:title" content="Why I ditched heavy CSS frameworks for Tailwind — Eliott"/>
-  <meta property="og:type" content="article"/>
-  <title>Why I ditched heavy CSS frameworks for Tailwind — Eliott</title>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Building a Secure & Reliable IT Infrastructure — practical principles for modern businesses by Md. Ariful Islam."
+  >
+
+  <meta
+    name="author"
+    content="Md. Ariful Islam"
+  >
+
+  <meta
+    property="og:title"
+    content="Building a Secure & Reliable IT Infrastructure"
+  >
+
+  <meta
+    property="og:description"
+    content="Practical principles for building secure, reliable and scalable business IT infrastructure."
+  >
+
+  <meta
+    property="og:type"
+    content="article"
+  >
+
+  <title>
+    Building a Secure &amp; Reliable IT Infrastructure — Md. Ariful Islam
+  </title>
+
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet"/>
+
+
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+  ></script>
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap"
+    rel="stylesheet"
+  >
+
+
   <script>
-    tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{display:['PT Sans','sans-serif'],body:['DM Sans','sans-serif']},colors:{accent:'#FF6B2B','accent-light':'#FF8F5C'}}}}
+
+    tailwind.config = {
+
+      darkMode: 'class',
+
+      theme: {
+
+        extend: {
+
+          fontFamily: {
+
+            display: ['PT Sans', 'sans-serif'],
+
+            body: ['DM Sans', 'sans-serif']
+
+          },
+
+          colors: {
+
+            accent: '#FF6B2B',
+
+            'accent-light': '#FF8F5C'
+
+          }
+
+        }
+
+      }
+
+    }
+
   </script>
+
+
   <style>
-    *,*::before,*::after{box-sizing:border-box;}
-    html{font-family:'DM Sans',sans-serif;}
-    h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif;}
-    ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#FF6B2B;border-radius:99px;}
-    body{transition:background-color .3s,color .3s;}
-    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4;}
-    .nav-link{position:relative;}
-    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.4,0,.2,1);}
-    .nav-link:hover::after{width:100%;}
-    .btn-primary{position:relative;overflow:hidden;}
-    .btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .4s cubic-bezier(.4,0,.2,1);}
-    .btn-primary:hover::after{left:160%;}
-    [x-cloak]{display:none!important;}
-    .photo-frame{position:relative;overflow:hidden;background:#e4e4e7;}
-    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
 
-    /* Article typography */
-    .prose-article h2{font-family:'PT Sans',sans-serif;font-size:1.6rem;font-weight:700;color:inherit;margin:2.5rem 0 1rem;line-height:1.25;}
-    .prose-article h3{font-family:'PT Sans',sans-serif;font-size:1.2rem;font-weight:700;margin:2rem 0 .75rem;line-height:1.3;}
-    .prose-article p{margin:0 0 1.4rem;line-height:1.8;color:#52525b;}
-    .dark .prose-article p{color:#a1a1aa;}
-    .prose-article ul{margin:0 0 1.4rem 1.5rem;list-style:disc;}
-    .prose-article li{margin-bottom:.4rem;line-height:1.7;color:#52525b;}
-    .dark .prose-article li{color:#a1a1aa;}
-    .prose-article pre{background:#18181b;color:#e4e4e7;border-radius:12px;padding:1.25rem 1.5rem;overflow-x:auto;font-size:.85rem;line-height:1.7;margin:0 0 1.6rem;}
-    .prose-article code:not(pre code){background:#f4f4f5;color:#FF6B2B;padding:.15em .4em;border-radius:4px;font-size:.875em;}
-    .dark .prose-article code:not(pre code){background:#27272a;}
-    .prose-article blockquote{border-left:3px solid #FF6B2B;padding:.75rem 1.25rem;margin:0 0 1.6rem;background:#fff7f4;border-radius:0 8px 8px 0;}
-    .dark .prose-article blockquote{background:#27272a;}
-    .prose-article blockquote p{color:#52525b;font-style:italic;margin:0;}
-    .dark .prose-article blockquote p{color:#a1a1aa;}
-    .prose-article a{color:#FF6B2B;text-decoration:underline;text-underline-offset:3px;}
-    .prose-article hr{border:none;border-top:1px solid #e4e4e7;margin:2.5rem 0;}
-    .dark .prose-article hr{border-top-color:#27272a;}
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
-    /* Reading progress bar */
-    .progress-bar{position:fixed;top:0;left:0;height:3px;background:#FF6B2B;z-index:100;transition:width .1s;}
+    html {
+      font-family: 'DM Sans', sans-serif;
+    }
 
-    .reveal{opacity:0;transform:translateY(20px);transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);}
-    .reveal.visible{opacity:1;transform:translateY(0);}
-    .card{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .2s;}
-    .card:hover{transform:translateY(-3px);}
+    h1,
+    h2,
+    h3 {
+      font-family: 'PT Sans', sans-serif;
+    }
+
+    body {
+      transition:
+        background-color .3s,
+        color .3s;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity .6s ease,
+        transform .6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: currentColor;
+      transition: width .25s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .article-content {
+      color: #52525b;
+      line-height: 1.9;
+    }
+
+    .dark .article-content {
+      color: #a1a1aa;
+    }
+
+    .article-content h2 {
+      color: #18181b;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .dark .article-content h2 {
+      color: white;
+    }
+
+    .article-content h3 {
+      color: #18181b;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-top: 2rem;
+      margin-bottom: .75rem;
+    }
+
+    .dark .article-content h3 {
+      color: white;
+    }
+
+    .article-content p {
+      margin-bottom: 1.25rem;
+    }
+
+    .article-content ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: .6rem;
+    }
+
+    .article-content strong {
+      color: #27272a;
+    }
+
+    .dark .article-content strong {
+      color: #f4f4f5;
+    }
+
+    .article-content blockquote {
+      border-left: 3px solid #FF6B2B;
+      padding-left: 1.25rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: #71717a;
+    }
+
+    .dark .article-content blockquote {
+      color: #a1a1aa;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #FF6B2B;
+      border-radius: 99px;
+    }
+
   </style>
+
 </head>
-<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-body antialiased">
 
-  <!-- Reading progress bar -->
-  <div class="progress-bar" :style="`width:${progress}%`" role="progressbar" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100" aria-label="Reading progress"></div>
 
-  <!-- NAV -->
-  <header class="fixed top-0.5 left-0 right-0 z-50 transition-all duration-300"
-    :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':'bg-transparent'">
-    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
-      <a href="index.html" class="font-display font-bold text-xl tracking-tight z-10">
-        <span class="text-zinc-900 dark:text-white">eli</span><span class="text-accent">ott</span>
+<body
+  class="bg-white dark:bg-zinc-950
+  text-zinc-900 dark:text-white"
+>
+
+
+<!-- ═══════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════ -->
+<header
+  class="fixed top-0 left-0 right-0 z-50
+  border-b border-zinc-100/80 dark:border-zinc-800/80
+  bg-white/90 dark:bg-zinc-950/90
+  backdrop-blur-xl"
+>
+
+  <div
+    class="max-w-6xl mx-auto px-6 h-16
+    flex items-center justify-between"
+  >
+
+    <a
+      href="index.html"
+      class="font-display font-bold text-xl"
+    >
+      Md. Ariful<span class="text-accent">.</span>
+    </a>
+
+
+    <nav class="hidden md:flex items-center gap-7">
+
+      <a
+        href="index.html#about"
+        class="nav-link text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent"
+      >
+        About
       </a>
-      <ul class="hidden md:flex items-center gap-8 text-sm font-medium" role="list">
-        <li><a href="index.html#services" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Services</a></li>
-        <li><a href="projects.html" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Work</a></li>
-        <li><a href="index.html#about" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">About</a></li>
-        <li><a href="blog.html" class="nav-link text-accent font-medium">Blog</a></li>
-        <li><a href="index.html#contact" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Contact</a></li>
-      </ul>
-      <div class="flex items-center gap-3">
-        <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
-          <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-          <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-        </button>
-        <a href="index.html#contact" class="hidden md:inline-flex items-center gap-2 btn-primary bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">Hire me →</a>
-        <button @click="mobileMenu=!mobileMenu" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" aria-label="Toggle menu">
-          <svg x-show="!mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          <svg x-show="mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
+
+      <a
+        href="index.html#services"
+        class="nav-link text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent"
+      >
+        Services
+      </a>
+
+      <a
+        href="index.html#work"
+        class="nav-link text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent"
+      >
+        Work
+      </a>
+
+      <a
+        href="blog.html"
+        class="nav-link text-sm font-medium text-accent"
+      >
+        Insights
+      </a>
+
+      <a
+        href="index.html#contact"
+        class="nav-link text-sm text-zinc-600 dark:text-zinc-400 hover:text-accent"
+      >
+        Contact
+      </a>
+
     </nav>
-    <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
-      <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium" role="list">
-        <li><a href="index.html#services" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Services</a></li>
-        <li><a href="projects.html" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Work</a></li>
-        <li><a href="index.html#about" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">About</a></li>
-        <li><a href="blog.html" class="block text-accent font-medium">Blog</a></li>
-        <li><a href="index.html#contact" @click="mobileMenu=false" class="block text-zinc-700 dark:text-zinc-300">Contact</a></li>
-      </ul>
+
+
+    <div class="flex items-center gap-3">
+
+      <button
+        @click="dark = !dark"
+        type="button"
+        aria-label="Toggle dark mode"
+        class="w-9 h-9
+        flex items-center justify-center
+        rounded-full
+        border border-zinc-200 dark:border-zinc-700
+        hover:border-accent hover:text-accent"
+      >
+
+        <svg
+          x-show="!dark"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 7a5 5 0 100 10 5 5 0 000-10z"
+          />
+        </svg>
+
+        <svg
+          x-show="dark"
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+          />
+        </svg>
+
+      </button>
+
+
+      <button
+        @click="mobileMenu = !mobileMenu"
+        class="md:hidden w-9 h-9
+        flex items-center justify-center
+        rounded-full border border-zinc-200 dark:border-zinc-700"
+      >
+
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+
+      </button>
+
     </div>
-  </header>
 
-  <main>
+  </div>
 
-    <!-- ARTICLE HEADER -->
-    <article>
-      <header class="pt-32 pb-12 max-w-3xl mx-auto px-6">
-        <a href="blog.html" class="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors mb-8">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
-          Back to blog
+
+  <!-- Mobile -->
+  <div
+    x-show="mobileMenu"
+    class="md:hidden
+    border-t border-zinc-100 dark:border-zinc-800
+    bg-white dark:bg-zinc-950"
+  >
+
+    <nav class="px-6 py-5 space-y-4">
+
+      <a href="index.html" class="block text-sm">
+        Home
+      </a>
+
+      <a href="index.html#about" class="block text-sm">
+        About
+      </a>
+
+      <a href="index.html#services" class="block text-sm">
+        Services
+      </a>
+
+      <a href="index.html#work" class="block text-sm">
+        Work
+      </a>
+
+      <a href="blog.html" class="block text-sm text-accent">
+        Insights
+      </a>
+
+      <a href="index.html#contact" class="block text-sm">
+        Contact
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+<main>
+
+
+<!-- ═══════════════════════════════════════
+     ARTICLE HEADER
+════════════════════════════════════════ -->
+<section class="pt-36 pb-14">
+
+  <div class="max-w-4xl mx-auto px-6">
+
+    <a
+      href="blog.html"
+      class="reveal inline-flex items-center gap-2
+      text-sm text-zinc-500 dark:text-zinc-400
+      hover:text-accent transition-colors mb-8"
+    >
+
+      ← Back to Insights
+
+    </a>
+
+
+    <div
+      class="reveal flex flex-wrap items-center gap-3 mb-6"
+    >
+
+      <span
+        class="text-xs bg-orange-50 dark:bg-zinc-800
+        text-accent
+        border border-orange-200 dark:border-zinc-700
+        px-3 py-1.5 rounded-full"
+      >
+        IT &amp; Technology
+      </span>
+
+      <span class="text-xs text-zinc-400">
+        IT Infrastructure
+      </span>
+
+    </div>
+
+
+    <h1
+      class="reveal
+      font-display font-bold
+      text-4xl md:text-6xl
+      leading-tight
+      text-zinc-900 dark:text-white
+      mb-6"
+    >
+      Building a Secure &amp; Reliable IT Infrastructure
+    </h1>
+
+
+    <p
+      class="reveal
+      text-lg md:text-xl
+      text-zinc-500 dark:text-zinc-400
+      leading-relaxed
+      max-w-3xl mb-8"
+    >
+      Practical principles for creating an IT environment
+      that is reliable, secure, scalable, and aligned with
+      modern business operations.
+    </p>
+
+
+    <div
+      class="reveal
+      flex items-center gap-4
+      text-sm text-zinc-500 dark:text-zinc-400"
+    >
+
+      <div
+        class="w-10 h-10 rounded-full
+        bg-accent/10
+        flex items-center justify-center"
+      >
+
+        <span class="font-bold text-accent">
+          AI
+        </span>
+
+      </div>
+
+      <div>
+
+        <p class="font-medium text-zinc-900 dark:text-white">
+          Md. Ariful Islam
+        </p>
+
+        <p class="text-xs text-zinc-500">
+          IT &amp; Branding Professional
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ═══════════════════════════════════════
+     FEATURE IMAGE
+════════════════════════════════════════ -->
+<section class="pb-14">
+
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div
+      class="rounded-3xl overflow-hidden
+      h-72 md:h-[480px]"
+    >
+
+      <img
+        src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=90"
+        alt="Modern IT infrastructure"
+        class="w-full h-full object-cover"
+      >
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ═══════════════════════════════════════
+     ARTICLE CONTENT
+════════════════════════════════════════ -->
+<article>
+
+  <div class="max-w-3xl mx-auto px-6 pb-24">
+
+    <div class="article-content">
+
+
+      <p>
+        A modern business depends heavily on its technology
+        infrastructure. Email, business applications, file storage,
+        communication systems, ERP platforms, cloud services, and
+        internal networks all need to work together reliably.
+      </p>
+
+
+      <p>
+        But building a reliable IT environment is not simply about
+        purchasing powerful hardware or installing software. The
+        infrastructure needs to be designed around the organization's
+        operational requirements, security priorities, users,
+        scalability, and business continuity.
+      </p>
+
+
+      <h2>
+        1. Start with a clear infrastructure strategy
+      </h2>
+
+
+      <p>
+        Before implementing any technology, it is important to
+        understand the business first. Identify the applications,
+        departments, users, devices, data, and services that the
+        organization depends on every day.
+      </p>
+
+
+      <p>
+        A good infrastructure strategy should answer questions such as:
+      </p>
+
+
+      <ul>
+
+        <li>
+          Which systems are business-critical?
+        </li>
+
+        <li>
+          Where is company data stored?
+        </li>
+
+        <li>
+          How are users and devices managed?
+        </li>
+
+        <li>
+          What happens if a server or network connection fails?
+        </li>
+
+        <li>
+          How quickly can the organization recover from an incident?
+        </li>
+
+      </ul>
+
+
+      <h2>
+        2. Build a reliable network foundation
+      </h2>
+
+
+      <p>
+        The network is the backbone of most business environments.
+        A properly designed network should provide reliable
+        connectivity while separating critical resources and
+        controlling access.
+      </p>
+
+
+      <p>
+        Network planning may include structured LAN design,
+        VLAN segmentation, managed switches, wireless infrastructure,
+        routing, firewall policies, VPN access, monitoring,
+        and internet redundancy where required.
+      </p>
+
+
+      <blockquote>
+        A fast network is useful, but a well-designed and
+        properly managed network is what makes an organization
+        operationally resilient.
+      </blockquote>
+
+
+      <h2>
+        3. Protect systems with layered security
+      </h2>
+
+
+      <p>
+        Cybersecurity should not depend on a single security product.
+        A stronger approach uses multiple layers of protection.
+      </p>
+
+
+      <ul>
+
+        <li>
+          Firewall and network security
+        </li>
+
+        <li>
+          Strong authentication and access control
+        </li>
+
+        <li>
+          Endpoint protection
+        </li>
+
+        <li>
+          Regular software and security updates
+        </li>
+
+        <li>
+          Secure backups
+        </li>
+
+        <li>
+          User awareness and security policies
+        </li>
+
+        <li>
+          Monitoring and incident response
+        </li>
+
+      </ul>
+
+
+      <h2>
+        4. Backup is part of infrastructure
+      </h2>
+
+
+      <p>
+        One of the most important lessons in IT management is that
+        storing data is not the same as protecting data.
+      </p>
+
+
+      <p>
+        A proper backup strategy should consider multiple copies,
+        separate storage locations, retention policies, recovery
+        testing, and protection against accidental deletion or
+        ransomware.
+      </p>
+
+
+      <p>
+        Organizations should regularly test whether their backups
+        can actually be restored. A backup that has never been
+        tested is not a complete recovery strategy.
+      </p>
+
+
+      <h2>
+        5. Manage Microsoft 365 and cloud services properly
+      </h2>
+
+
+      <p>
+        Cloud productivity platforms such as Microsoft 365 can
+        significantly improve collaboration and business
+        communication, but they still require proper administration.
+      </p>
+
+
+      <p>
+        User accounts, permissions, business email, security
+        policies, authentication, shared resources, and access
+        management should be reviewed regularly.
+      </p>
+
+
+      <h2>
+        6. Integrate business applications
+      </h2>
+
+
+      <p>
+        ERP, HRMS, accounting, inventory, production, and other
+        business applications should not operate as isolated
+        systems whenever integration is practical.
+      </p>
+
+
+      <p>
+        A properly managed business application environment can
+        reduce duplicate work, improve data visibility, and help
+        management make better decisions.
+      </p>
+
+
+      <h2>
+        7. Plan for business continuity
+      </h2>
+
+
+      <p>
+        Technology failures are inevitable. The objective is not
+        to assume that failures will never happen; it is to prepare
+        the organization to recover quickly when they do.
+      </p>
+
+
+      <p>
+        Business continuity planning should consider power failures,
+        internet outages, hardware failures, cyber incidents,
+        data loss, server problems, and other operational risks.
+      </p>
+
+
+      <h2>
+        Final thoughts
+      </h2>
+
+
+      <p>
+        A strong IT infrastructure combines reliability, security,
+        scalability, and operational discipline. Technology should
+        ultimately support the business rather than become a source
+        of unnecessary complexity.
+      </p>
+
+
+      <p>
+        Whether an organization is upgrading its network,
+        implementing Microsoft 365, improving cybersecurity,
+        deploying ERP systems, or strengthening backup processes,
+        the best results come from understanding the business
+        requirements first and then designing the technology around
+        those requirements.
+      </p>
+
+
+      <hr
+        class="my-12
+        border-zinc-200 dark:border-zinc-800"
+      >
+
+
+      <div
+        class="p-6 rounded-2xl
+        bg-zinc-50 dark:bg-zinc-900"
+      >
+
+        <p
+          class="text-sm font-medium
+          text-zinc-900 dark:text-white mb-2"
+        >
+          Need help with your IT environment?
+        </p>
+
+        <p
+          class="text-sm
+          text-zinc-500 dark:text-zinc-400 mb-4"
+        >
+          I work across IT infrastructure, networking,
+          Microsoft 365, ERP systems, cybersecurity,
+          branding, and digital solutions.
+        </p>
+
+        <a
+          href="index.html#contact"
+          class="inline-flex items-center gap-2
+          text-sm font-medium text-accent"
+        >
+          Let's discuss your requirements →
+
         </a>
 
-        <div class="flex items-center gap-3 mb-5">
-          <span class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full">Design</span>
-          <span class="text-xs text-zinc-400">March 8, 2025 · 7 min read</span>
-        </div>
-
-        <h1 class="font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-6">Why I ditched heavy CSS frameworks for Tailwind — and what changed</h1>
-
-        <p class="text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8">After years of fighting specificity wars and unused kilobytes, here's what finally convinced me to make the switch — and the measurable impact it had on both my workflow and my clients' performance scores.</p>
-
-        <!-- Author -->
-        <div class="flex items-center gap-4 py-6 border-t border-b border-zinc-100 dark:border-zinc-900">
-          <div class="photo-frame w-12 h-12 rounded-full shrink-0">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Eliott" loading="lazy"/>
-          </div>
-          <div>
-            <p class="font-medium text-zinc-900 dark:text-white text-sm">Eliott</p>
-            <p class="text-xs text-zinc-500">UI/UX Designer &amp; Frontend Developer</p>
-          </div>
-          <div class="ml-auto flex gap-3">
-            <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-accent hover:border-accent transition-colors" aria-label="Share on Twitter">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.632 5.905-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-accent hover:border-accent transition-colors" aria-label="Share on LinkedIn">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-            </a>
-          </div>
-        </div>
-      </header>
-
-      <!-- Hero image -->
-      <div class="max-w-4xl mx-auto px-6 mb-12">
-        <div class="photo-frame w-full h-72 md:h-96 rounded-2xl">
-          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80" alt="Code editor with CSS" loading="lazy"/>
-        </div>
       </div>
 
-      <!-- Article content -->
-      <div class="max-w-3xl mx-auto px-6 pb-16 prose-article">
-
-        <h2>The problem with traditional CSS frameworks</h2>
-        <p>I spent three years building projects with Bootstrap and Bulma. They're great frameworks — I won't pretend otherwise. But the longer I used them, the more I found myself fighting the system rather than working with it.</p>
-        <p>Every new project started the same way: import the framework, immediately override half of it, write a mountain of custom CSS to undo the defaults, then spend 40% of dev time debugging specificity issues. The final CSS bundle was usually 80–120kb, of which maybe 15% was actually used.</p>
-
-        <blockquote>
-          <p>"The moment you start writing <code>!important</code> to override a framework's defaults, something has gone fundamentally wrong."</p>
-        </blockquote>
-
-        <h2>What made me give Tailwind a proper shot</h2>
-        <p>I'd dismissed Tailwind for a long time. The utility-class approach looked messy in the HTML, and I was convinced it would make templates unreadable. Then a client asked me to maintain an existing Tailwind project, and I had no choice.</p>
-        <p>Two weeks in, I was converted. Here's what changed my mind:</p>
-        <ul>
-          <li><strong>No context switching.</strong> I stopped bouncing between HTML and CSS files. Everything is right there in the markup.</li>
-          <li><strong>Zero specificity wars.</strong> Utility classes are all single-level selectors. You never fight the cascade.</li>
-          <li><strong>Tiny final bundles.</strong> PurgeCSS (now built in) means production builds are typically 5–15kb. My average went from 110kb to 8kb.</li>
-          <li><strong>The design system is the config.</strong> Spacing, colours, typography — all centralised in <code>tailwind.config.js</code>.</li>
-        </ul>
-
-        <h2>The real-world performance impact</h2>
-        <p>I rebuilt a client's marketing site using Tailwind CSS + Alpine.js, replacing their WordPress + Bootstrap 4 stack. The results after one month were hard to argue with:</p>
-        <ul>
-          <li>Lighthouse performance score: <strong>47 → 96</strong></li>
-          <li>CSS bundle: <strong>118kb → 7kb</strong></li>
-          <li>Time to first contentful paint: <strong>3.8s → 0.9s</strong></li>
-          <li>Bounce rate: <strong>-22%</strong></li>
-        </ul>
-
-        <h2>What I still miss from traditional frameworks</h2>
-        <p>It's not all perfect. A few things I still reach for plugins or custom components to replace:</p>
-        <ul>
-          <li>Pre-built complex components like modals, dropdowns, and datepickers</li>
-          <li>Form validation styling (though Alpine.js handles the logic side well)</li>
-          <li>Opinionated grid systems — Tailwind's grid is powerful but verbose for complex layouts</li>
-        </ul>
-        <p>The ecosystem has largely caught up here. Headless UI, Flowbite, and Preline cover most of the gaps. And Alpine.js handles the interactivity layer beautifully without adding weight.</p>
-
-        <h2>My recommendation</h2>
-        <p>If you're building anything custom — a SaaS product, a portfolio, a landing page — Tailwind is the right tool. The initial learning curve is about a week. After that, you'll ship faster than you ever did before.</p>
-        <p>If you need a WordPress theme or a simple brochure site with minimal custom styling, Bootstrap is still perfectly fine. Use the right tool for the job.</p>
-
-        <hr/>
-        <p><em>If this was helpful, share it with a frontend dev friend who's still on Bootstrap 4. 🧡</em></p>
-
-      </div>
-    </article>
-
-    <!-- RELATED ARTICLES -->
-    <section class="bg-zinc-50 dark:bg-zinc-900/50 py-16">
-      <div class="max-w-6xl mx-auto px-6">
-        <h2 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">More from the blog</h2>
-        <div class="grid md:grid-cols-3 gap-6">
-
-          <article class="reveal card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
-            <div class="photo-frame w-full h-40">
-              <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=700&q=80" alt="Alpine.js" loading="lazy"/>
-            </div>
-            <div class="p-5">
-              <span class="text-xs text-zinc-400 mb-2 block">Dec 3, 2024 · Dev</span>
-              <a href="blog-article.html">
-                <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Alpine.js is the jQuery of the modern era</h3>
-              </a>
-              <a href="blog-article.html" class="text-sm font-medium text-accent nav-link">Read →</a>
-            </div>
-          </article>
-
-          <article class="reveal card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
-            <div class="photo-frame w-full h-40">
-              <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=700&q=80" alt="Dark mode" loading="lazy"/>
-            </div>
-            <div class="p-5">
-              <span class="text-xs text-zinc-400 mb-2 block">Oct 5, 2024 · Dev</span>
-              <a href="blog-article.html">
-                <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Dark mode done right: beyond just inverting colours</h3>
-              </a>
-              <a href="blog-article.html" class="text-sm font-medium text-accent nav-link">Read →</a>
-            </div>
-          </article>
-
-          <article class="reveal card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
-            <div class="photo-frame w-full h-40">
-              <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=700&q=80" alt="UX laws" loading="lazy"/>
-            </div>
-            <div class="p-5">
-              <span class="text-xs text-zinc-400 mb-2 block">Nov 18, 2024 · Design</span>
-              <a href="blog-article.html">
-                <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">The 7 UX laws every frontend dev should memorise</h3>
-              </a>
-              <a href="blog-article.html" class="text-sm font-medium text-accent nav-link">Read →</a>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="border-t border-zinc-100 dark:border-zinc-900">
-    <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-sm text-zinc-400">© <span id="yr"></span> Eliott. All rights reserved. <br> Developed by <a href="https://lbegey78.gumroad.com/" target="_blank" class="font-bold">Laurent Begey</a> • Distributed by <a href="https://themewagon.com/" target="_blank" class="font-bold">ThemeWagon</a></p>
-      <p class="text-xs text-zinc-500">Built with <a href="https://tailwindcss.com" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Tailwind CSS</a> &amp; <a href="https://alpinejs.dev" class="hover:text-zinc-900 dark:hover:text-white transition-colors" rel="noopener noreferrer" target="_blank">Alpine.js</a></p>
     </div>
-  </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);} });
-    },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-  </script>
+  </div>
+
+</article>
+
+
+
+<!-- ═══════════════════════════════════════
+     RELATED ARTICLES
+════════════════════════════════════════ -->
+<section
+  class="py-20
+  bg-zinc-50 dark:bg-zinc-900/40"
+>
+
+  <div class="max-w-6xl mx-auto px-6">
+
+    <div class="mb-10">
+
+      <p
+        class="text-xs font-medium
+        text-accent tracking-widest uppercase mb-3"
+      >
+        Continue Reading
+      </p>
+
+      <h2
+        class="font-display font-bold
+        text-3xl
+        text-zinc-900 dark:text-white"
+      >
+        More insights
+      </h2>
+
+    </div>
+
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+
+      <article
+        class="bg-white dark:bg-zinc-900
+        rounded-2xl overflow-hidden
+        border border-zinc-100 dark:border-zinc-800
+        hover:border-accent transition-colors"
+      >
+
+        <div class="h-40 overflow-hidden">
+
+          <img
+            src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=700&q=80"
+            alt="Cybersecurity"
+            class="w-full h-full object-cover"
+          >
+
+        </div>
+
+        <div class="p-5">
+
+          <span class="text-xs text-accent">
+            Cybersecurity
+          </span>
+
+          <h3
+            class="font-display font-bold
+            text-lg
+            text-zinc-900 dark:text-white
+            mt-2 mb-3"
+          >
+            Practical Cybersecurity Principles for Modern Businesses
+          </h3>
+
+          <a
+            href="blog.html"
+            class="text-sm font-medium text-accent"
+          >
+            Read article →
+          </a>
+
+        </div>
+
+      </article>
+
+
+
+      <article
+        class="bg-white dark:bg-zinc-900
+        rounded-2xl overflow-hidden
+        border border-zinc-100 dark:border-zinc-800
+        hover:border-accent transition-colors"
+      >
+
+        <div class="h-40 overflow-hidden">
+
+          <img
+            src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=700&q=80"
+            alt="Microsoft 365"
+            class="w-full h-full object-cover"
+          >
+
+        </div>
+
+        <div class="p-5">
+
+          <span class="text-xs text-accent">
+            Microsoft 365
+          </span>
+
+          <h3
+            class="font-display font-bold
+            text-lg
+            text-zinc-900 dark:text-white
+            mt-2 mb-3"
+          >
+            How Microsoft 365 Can Improve Business Productivity
+          </h3>
+
+          <a
+            href="blog.html"
+            class="text-sm font-medium text-accent"
+          >
+            Read article →
+          </a>
+
+        </div>
+
+      </article>
+
+
+
+      <article
+        class="bg-white dark:bg-zinc-900
+        rounded-2xl overflow-hidden
+        border border-zinc-100 dark:border-zinc-800
+        hover:border-accent transition-colors"
+      >
+
+        <div class="h-40 overflow-hidden">
+
+          <img
+            src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=700&q=80"
+            alt="Corporate branding"
+            class="w-full h-full object-cover"
+          >
+
+        </div>
+
+        <div class="p-5">
+
+          <span class="text-xs text-accent">
+            Branding
+          </span>
+
+          <h3
+            class="font-display font-bold
+            text-lg
+            text-zinc-900 dark:text-white
+            mt-2 mb-3"
+          >
+            Building a Strong Corporate Brand Identity
+          </h3>
+
+          <a
+            href="blog.html"
+            class="text-sm font-medium text-accent"
+          >
+            Read article →
+          </a>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer
+  class="border-t
+  border-zinc-100 dark:border-zinc-900"
+>
+
+  <div
+    class="max-w-6xl mx-auto px-6 py-8
+    flex flex-col sm:flex-row
+    items-center justify-between gap-4"
+  >
+
+    <p class="text-sm text-zinc-400">
+      © <span id="yr"></span>
+      Md. Ariful Islam.
+      All rights reserved.
+    </p>
+
+    <p class="text-xs text-zinc-500">
+      IT &amp; Branding Professional
+    </p>
+
+  </div>
+
+</footer>
+
+
+
+<script>
+
+  document.getElementById('yr').textContent =
+    new Date().getFullYear();
+
+
+  const observer =
+    new IntersectionObserver(
+      entries => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add('visible');
+
+            observer.unobserve(entry.target);
+
+          }
+
+        });
+
+      },
+      {
+        threshold: .1,
+        rootMargin: '0px 0px -40px 0px'
+      }
+    );
+
+
+  document
+    .querySelectorAll('.reveal')
+    .forEach(el => observer.observe(el));
+
+</script>
+
 
 </body>
 </html>
